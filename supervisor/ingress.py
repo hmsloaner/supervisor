@@ -1,7 +1,6 @@
 """Fetch last versions from webserver."""
 from datetime import timedelta
 import logging
-import random
 import secrets
 
 from .addons.addon import Addon
@@ -165,7 +164,7 @@ class Ingress(FileConfiguration, CoreSysAttributes):
             or port in self.ports.values()
             or await check_port(self.sys_docker.network.gateway, port)
         ):
-            port = random.randint(62000, 65500)
+            port = secrets.SystemRandom().randint(62000, 65500)
 
         # Save port for next time
         self.ports[addon_slug] = port
