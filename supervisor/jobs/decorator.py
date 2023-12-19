@@ -319,10 +319,9 @@ class Job(CoreSysAttributes):
     ):
         """Check conditions."""
         used_conditions = set(conditions) - set(coresys.sys_jobs.ignore_conditions)
-        ignored_conditions = set(conditions) & set(coresys.sys_jobs.ignore_conditions)
 
         # Check if somethings is ignored
-        if ignored_conditions:
+        if ignored_conditions := set(conditions) & set(coresys.sys_jobs.ignore_conditions):
             _LOGGER.critical(
                 "The following job conditions are ignored and will make the system unstable when they occur: %s",
                 ignored_conditions,

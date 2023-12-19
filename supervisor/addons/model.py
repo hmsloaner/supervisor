@@ -244,8 +244,7 @@ class AddonModel(JobGroup, ABC):
 
         services = {}
         for data in services_list:
-            service = RE_SERVICE.match(data)
-            if service:
+            if service := RE_SERVICE.match(data):
                 services[service.group("service")] = service.group("rights")
 
         return services

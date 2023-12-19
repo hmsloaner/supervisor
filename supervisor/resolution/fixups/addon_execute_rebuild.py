@@ -28,8 +28,7 @@ class FixupAddonExecuteRebuild(FixupBase):
             )
             return
 
-        state = await addon.instance.current_state()
-        if state == ContainerState.UNKNOWN:
+        if (state := await addon.instance.current_state()) == ContainerState.UNKNOWN:
             _LOGGER.info(
                 "Container for addon %s does not exist, it will be rebuilt when started next",
                 reference,

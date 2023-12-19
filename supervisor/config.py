@@ -68,8 +68,7 @@ class CoreConfig(FileConfiguration):
     @property
     def timezone(self) -> str | None:
         """Return system timezone."""
-        timezone = self._data.get(ATTR_TIMEZONE)
-        if timezone != _UTC:
+        if (timezone := self._data.get(ATTR_TIMEZONE)) != _UTC:
             return timezone
         self._data.pop(ATTR_TIMEZONE, None)
         return None

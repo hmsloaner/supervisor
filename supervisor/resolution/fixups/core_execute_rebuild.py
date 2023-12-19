@@ -20,9 +20,8 @@ class FixupCoreExecuteRebuild(FixupBase):
 
     async def process_fixup(self, reference: str | None = None) -> None:
         """Rebuild the core container."""
-        state = await self.sys_homeassistant.core.instance.current_state()
 
-        if state == ContainerState.UNKNOWN:
+        if (state := await self.sys_homeassistant.core.instance.current_state()) == ContainerState.UNKNOWN:
             _LOGGER.info(
                 "Container for Home Assistant does not exist, it will be rebuilt when started next"
             )

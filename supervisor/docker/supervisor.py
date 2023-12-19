@@ -113,10 +113,9 @@ class DockerSupervisor(DockerInterface):
             # Find start tag
             for tag in docker_container.image.tags:
                 start_image = tag.partition(":")[0]
-                start_tag = tag.partition(":")[2] or "latest"
 
                 # If version tag
-                if start_tag != "latest":
+                if (start_tag := tag.partition(":")[2] or "latest") != "latest":
                     continue
                 docker_image.tag(start_image, start_tag)
                 docker_image.tag(start_image, version.string)

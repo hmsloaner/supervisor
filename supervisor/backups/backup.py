@@ -500,13 +500,12 @@ class Backup(CoreSysAttributes):
                 return
 
             # Unmount any mounts within folder
-            bind_mounts = [
+            if bind_mounts := [
                 bound.bind_mount
                 for bound in self.sys_mounts.bound_mounts
                 if bound.bind_mount.local_where
                 and bound.bind_mount.local_where.is_relative_to(origin_dir)
-            ]
-            if bind_mounts:
+            ]:
                 await asyncio.gather(
                     *[bind_mount.unmount() for bind_mount in bind_mounts]
                 )

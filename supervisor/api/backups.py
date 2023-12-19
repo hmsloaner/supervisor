@@ -207,11 +207,10 @@ class APIBackups(CoreSysAttributes):
         """Create full backup."""
         body = await api_validate(SCHEMA_BACKUP_FULL, request)
 
-        backup = await asyncio.shield(
-            self.sys_backups.do_backup_full(**self._location_to_mount(body))
-        )
 
-        if backup:
+        if backup := await asyncio.shield(
+            self.sys_backups.do_backup_full(**self._location_to_mount(body))
+        ):
             return {ATTR_SLUG: backup.slug}
         return False
 
@@ -219,11 +218,10 @@ class APIBackups(CoreSysAttributes):
     async def backup_partial(self, request):
         """Create a partial backup."""
         body = await api_validate(SCHEMA_BACKUP_PARTIAL, request)
-        backup = await asyncio.shield(
-            self.sys_backups.do_backup_partial(**self._location_to_mount(body))
-        )
 
-        if backup:
+        if backup := await asyncio.shield(
+            self.sys_backups.do_backup_partial(**self._location_to_mount(body))
+        ):
             return {ATTR_SLUG: backup.slug}
         return False
 

@@ -33,8 +33,7 @@ class SupervisorQueueHandler(logging.handlers.QueueHandler):
 
         See https://bugs.python.org/issue24645
         """
-        return_value = self.filter(record)
-        if return_value:
+        if return_value := self.filter(record):
             self.emit(record)
         return return_value
 

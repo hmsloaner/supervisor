@@ -99,9 +99,8 @@ class APICoreDNS(CoreSysAttributes):
     async def update(self, request: web.Request) -> None:
         """Update DNS plugin."""
         body = await api_validate(SCHEMA_VERSION, request)
-        version = body.get(ATTR_VERSION, self.sys_plugins.dns.latest_version)
 
-        if version == self.sys_plugins.dns.version:
+        if (version := body.get(ATTR_VERSION, self.sys_plugins.dns.latest_version)) == self.sys_plugins.dns.version:
             raise APIError(f"Version {version} is already in use")
         await asyncio.shield(self.sys_plugins.dns.update(version))
 

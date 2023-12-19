@@ -178,10 +178,9 @@ class DockerInterface(JobGroup):
         """Return a dictionay with credentials for docker login."""
         registry = None
         credentials = {}
-        matcher = IMAGE_WITH_HOST.match(image)
 
         # Custom registry
-        if matcher:
+        if matcher := IMAGE_WITH_HOST.match(image):
             if matcher.group(1) in self.sys_docker.config.registries:
                 registry = matcher.group(1)
                 credentials[ATTR_REGISTRY] = registry

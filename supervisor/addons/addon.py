@@ -394,8 +394,7 @@ class Addon(AddonModel):
         if not self.with_ingress:
             return None
 
-        port = self.data[ATTR_INGRESS_PORT]
-        if port == 0:
+        if (port := self.data[ATTR_INGRESS_PORT]) == 0:
             raise RuntimeError(f"No port set for add-on {self.slug}")
         return port
 

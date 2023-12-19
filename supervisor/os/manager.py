@@ -69,8 +69,7 @@ class OSManager(CoreSysAttributes):
         return self._datadisk
 
     def _get_download_url(self, version: AwesomeVersion) -> str:
-        raw_url = self.sys_updater.ota_url
-        if raw_url is None:
+        if (raw_url := self.sys_updater.ota_url) is None:
             raise HassOSUpdateError("Don't have an URL for OTA updates!", _LOGGER.error)
 
         update_board = self.board
@@ -182,10 +181,9 @@ class OSManager(CoreSysAttributes):
     )
     async def update(self, version: AwesomeVersion | None = None) -> None:
         """Update HassOS system."""
-        version = version or self.latest_version
 
         # Check installed version
-        if version == self.version:
+        if (version := version or self.latest_version) == self.version:
             raise HassOSUpdateError(
                 f"Version {version!s} is already installed", _LOGGER.warning
             )
