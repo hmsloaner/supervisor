@@ -212,10 +212,9 @@ class UDisks2Block(DBusInterfaceProxy):
     async def check_type(self) -> None:
         """Check if type of block device has changed and adjust interfaces if so."""
         introspection = await self.dbus.introspect()
-        interfaces = {intr.name for intr in introspection.interfaces}
 
         # If interfaces changed, update the proxy from introspection and reload interfaces
-        if interfaces != set(self.dbus.proxies.keys()):
+        if (interfaces := {intr.name for intr in introspection.interfaces}) != set(self.dbus.proxies.keys()):
             await self.dbus.init_proxy(introspection=introspection)
             await self._reload_interfaces()
 

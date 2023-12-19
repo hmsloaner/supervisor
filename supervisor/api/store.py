@@ -204,8 +204,7 @@ class APIStore(CoreSysAttributes):
     @api_process
     async def addons_addon_update(self, request: web.Request) -> None:
         """Update add-on."""
-        addon = self._extract_addon(request, installed=True)
-        if addon == request.get(REQUEST_FROM):
+        if (addon := self._extract_addon(request, installed=True)) == request.get(REQUEST_FROM):
             raise APIForbidden(f"Add-on {addon.slug} can't update itself!")
 
         body = await api_validate(SCHEMA_UPDATE, request)

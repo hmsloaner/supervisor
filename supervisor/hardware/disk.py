@@ -71,9 +71,8 @@ class HwDisk(CoreSysAttributes):
         return None
 
     def _get_mount_source(self, path: str) -> str:
-        mountinfoarr = self._get_mountinfo(path)
 
-        if mountinfoarr is None:
+        if (mountinfoarr := self._get_mountinfo(path)) is None:
             return None
 
         # Find optional field separator
@@ -96,10 +95,9 @@ class HwDisk(CoreSysAttributes):
             return None
 
         # Type B life time estimate represents the user partition.
-        life_time_value = int(emmc_life_time[1], 16)
 
         # 0=Not defined, 1-10=0-100% device life time used, 11=Exceeded
-        if life_time_value == 0:
+        if (life_time_value := int(emmc_life_time[1], 16)) == 0:
             return None
 
         if life_time_value == 11:
@@ -113,8 +111,7 @@ class HwDisk(CoreSysAttributes):
 
     def get_disk_life_time(self, path: str | Path) -> float:
         """Return life time estimate of the underlying SSD drive."""
-        mount_source = self._get_mount_source(str(path))
-        if mount_source == "overlay":
+        if (mount_source := self._get_mount_source(str(path))) == "overlay":
             return None
 
         mount_source_path = Path(mount_source)

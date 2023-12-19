@@ -138,8 +138,7 @@ class AddonOptions(CoreSysAttributes):
         # prepare range
         range_args = {}
         for group_name in _SCHEMA_LENGTH_PARTS:
-            group_value = match.group(group_name)
-            if group_value:
+            if group_value := match.group(group_name):
                 range_args[group_name[2:]] = float(group_value)
 
         if typ.startswith(_STR) or typ.startswith(_PASSWORD):

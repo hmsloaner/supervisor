@@ -105,9 +105,8 @@ class APIAudio(CoreSysAttributes):
     async def update(self, request: web.Request) -> None:
         """Update Audio plugin."""
         body = await api_validate(SCHEMA_VERSION, request)
-        version = body.get(ATTR_VERSION, self.sys_plugins.audio.latest_version)
 
-        if version == self.sys_plugins.audio.version:
+        if (version := body.get(ATTR_VERSION, self.sys_plugins.audio.latest_version)) == self.sys_plugins.audio.version:
             raise APIError(f"Version {version} is already in use")
         await asyncio.shield(self.sys_plugins.audio.update(version))
 

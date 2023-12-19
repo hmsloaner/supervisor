@@ -487,11 +487,10 @@ class HomeAssistant(FileConfiguration, CoreSysAttributes):
     )
     async def get_users(self) -> list[IngressSessionDataUser]:
         """Get list of all configured users."""
-        list_of_users = await self.sys_homeassistant.websocket.async_send_command(
-            {ATTR_TYPE: "config/auth/list"}
-        )
 
-        if list_of_users:
+        if list_of_users := await self.sys_homeassistant.websocket.async_send_command(
+            {ATTR_TYPE: "config/auth/list"}
+        ):
             return [
                 IngressSessionDataUser(
                     id=data["id"],

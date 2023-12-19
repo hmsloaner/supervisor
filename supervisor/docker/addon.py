@@ -689,10 +689,9 @@ class DockerAddon(DockerInterface):
     )
     async def import_image(self, tar_file: Path) -> None:
         """Import a tar file as image."""
-        docker_image = await self.sys_run_in_executor(
+        if docker_image := await self.sys_run_in_executor(
             self.sys_docker.import_image, tar_file
-        )
-        if docker_image:
+        ):
             self._meta = docker_image.attrs
             _LOGGER.info("Importing image %s and version %s", tar_file, self.version)
 

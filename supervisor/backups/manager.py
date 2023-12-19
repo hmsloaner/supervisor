@@ -300,14 +300,13 @@ class BackupManager(FileConfiguration, JobGroup):
         )
 
         _LOGGER.info("Creating new full backup with slug %s", backup.slug)
-        backup = await self._do_backup(
+        if backup := await self._do_backup(
             backup,
             self.sys_addons.installed,
             ALL_FOLDERS,
             True,
             homeassistant_exclude_database,
-        )
-        if backup:
+        ):
             _LOGGER.info("Creating full backup with slug %s completed", backup.slug)
         return backup
 
@@ -358,10 +357,9 @@ class BackupManager(FileConfiguration, JobGroup):
                 continue
             _LOGGER.warning("Add-on %s not found/installed", addon_slug)
 
-        backup = await self._do_backup(
+        if backup := await self._do_backup(
             backup, addon_list, folders, homeassistant, homeassistant_exclude_database
-        )
-        if backup:
+        ):
             _LOGGER.info("Creating partial backup with slug %s completed", backup.slug)
         return backup
 

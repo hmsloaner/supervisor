@@ -72,8 +72,7 @@ class Mount(CoreSysAttributes, ABC):
         if cls not in [Mount, NetworkMount]:
             return cls(coresys, data)
 
-        type_ = COERCE_MOUNT_TYPE(data[ATTR_TYPE])
-        if type_ == MountType.CIFS:
+        if (type_ := COERCE_MOUNT_TYPE(data[ATTR_TYPE])) == MountType.CIFS:
             return CIFSMount(coresys, data)
         if type_ == MountType.NFS:
             return NFSMount(coresys, data)
@@ -391,8 +390,7 @@ class CIFSMount(NetworkMount):
     @property
     def version(self) -> str | None:
         """Get password, returns none if auth is not used."""
-        version = self._data.get(ATTR_VERSION)
-        if version == MountCifsVersion.LEGACY_1_0:
+        if (version := self._data.get(ATTR_VERSION)) == MountCifsVersion.LEGACY_1_0:
             return "1.0"
         if version == MountCifsVersion.LEGACY_2_0:
             return "2.0"

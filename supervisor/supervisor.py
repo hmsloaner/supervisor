@@ -170,9 +170,8 @@ class Supervisor(CoreSysAttributes):
 
     async def update(self, version: AwesomeVersion | None = None) -> None:
         """Update Supervisor version."""
-        version = version or self.latest_version
 
-        if version == self.sys_supervisor.version:
+        if (version := version or self.latest_version) == self.sys_supervisor.version:
             raise SupervisorUpdateError(
                 f"Version {version!s} is already installed", _LOGGER.warning
             )
